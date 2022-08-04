@@ -1,3 +1,4 @@
+import { borderBottom } from "@mui/system";
 import React, { useEffect, useState } from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
@@ -8,7 +9,11 @@ function PostCommentsModal(props) {
 
   const commentsList = comments.map((com) => {
     return (
-      <div key={com.id}>
+      <div
+        key={com.id}
+        style={{ borderBottom: "solid 1px #d6d6d6" }}
+        className="mt-3"
+      >
         <h4>{com.name}</h4>
         <p>
           <span style={{ fontWeight: "300" }}>{com.email}</span>

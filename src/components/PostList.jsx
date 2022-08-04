@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Table from "react-bootstrap/Table";
 import Container from "react-bootstrap/Container";
 import Button from "react-bootstrap/Button";
@@ -7,86 +7,31 @@ import PostItem from "./PostItem";
 import PostDeleteModal from "./PostDeleteModal";
 import PostCommentsModal from "./PostCommentsModal";
 import PostCreateUpdateModal from "./PostCreateUpdateModal";
+import PostContext from "../context/PostContext";
 
 function PostList() {
-  const [postList, setPostList] = useState([]);
-  const [deletedPost, setDeletedPost] = useState({});
-  const [editedPost, setEditedPost] = useState({});
-  const [comments, setComments] = useState([]);
-  const [modalDeleteShow, setModalDeleteShow] = useState(false);
-  const [modalEditShow, setModalEditShow] = useState(false);
-  const [modalCommentsShow, setModalCommentsShow] = useState(false);
+  // const [postList, setPostList] = useState([]);
   const [modalCreateShow, setModalCreateShow] = useState(false);
 
-  useEffect(() => {
-    const url = "https://jsonplaceholder.typicode.com/posts";
-    fetch(url)
-      .then((res) => res.json())
-      .then((data) => setPostList(data));
-  }, []);
+  const {
+    postList,
+    setPostList,
+    deletePost,
+    deletedPost,
+    modalDeleteShow,
+    setModalDeleteShow,
+    viewComments,
+    comments,
+    modalCommentsShow,
+    setModalCommentsShow,
+    editPost,
+    editedPost,
+    modalEditShow,
+    setModalEditShow,
+    saveEditedPost,
+    saveNewPost,
+  } = useContext(PostContext);
 
-  async function deletePost(id) {
-    console.log("Deleting", id);
-    setPostList((prev) => {
-      return prev.filter((post) => {
-        return post.id !== id;
-      });
-    });
-    console.log(postList.length);
-    await fetch(`https://jsonplaceholder.typicode.com/posts/${id}`, {
-      method: "DELETE",
-    });
-    setModalDeleteShow(true);
-    setDeletedPost(postList[id - 1]);
-  }
-
-  async function viewComments(id) {
-    const url = `https://jsonplaceholder.typicode.com/comments?postId=${id}`;
-    fetch(url)
-      .then((res) => res.json())
-      .then((data) => setComments(data));
-    setModalCommentsShow(true);
-  }
-
-  const editPost = async (id) => {
-    console.log("Editing", id);
-    const url = `https://jsonplaceholder.typicode.com/posts/${id}`;
-    await fetch(url)
-      .then((res) => res.json())
-      .then((data) => setEditedPost(data));
-    setModalEditShow(true);
-  };
-
-  const saveEditedPost = (post) => {
-    const url = `https://jsonplaceholder.typicode.com/posts/${post.id}`;
-    fetch(url, {
-      method: "PUT",
-      body: JSON.stringify(post),
-      headers: {
-        "Content-type": "application/json; charset=UTF-8",
-      },
-    })
-      .then((response) => response.json())
-      .then((json) => console.log(json))
-      .then((json) => {
-        postList[postList.findIndex((p) => p.id === post.id)].title =
-          json.title;
-        postList[postList.findIndex((p) => p.id === post.id)].body = json.body;
-      });
-  };
-
-  const saveNewPost = (post) => {
-    const url = `https://jsonplaceholder.typicode.com/posts`;
-    fetch(url, {
-      method: "POST",
-      body: JSON.stringify(post),
-      headers: {
-        "Content-type": "application/json; charset=UTF-8",
-      },
-    })
-      .then((response) => response.json())
-      .then((json) => setPostList([json, ...postList]));
-  };
   const postItems = postList.map((post) => {
     return (
       <PostItem

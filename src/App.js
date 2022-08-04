@@ -6,20 +6,23 @@ import Home from "./components/Home";
 import PostList from "./components/PostList";
 import Post from "./components/Post";
 import PostDeleted from "./components/PostDeleted";
+import { PostProvider } from "./context/PostContext";
 
 function App() {
   return (
     <div className="App">
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Layout />}>
-            <Route index element={<Home />}></Route>
-            <Route path="posts" element={<PostList />}></Route>
-            <Route path="posts/:postId" element={<Post />}></Route>
-            <Route path="post-deleted" element={<PostDeleted />}></Route>
-          </Route>
-        </Routes>
-      </BrowserRouter>
+      <PostProvider>
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<Layout />}>
+              <Route index element={<Home />}></Route>
+              <Route path="posts" element={<PostList />}></Route>
+              <Route path="posts/:postId" element={<Post />}></Route>
+              <Route path="post-deleted" element={<PostDeleted />}></Route>
+            </Route>
+          </Routes>
+        </BrowserRouter>
+      </PostProvider>
     </div>
   );
 }
