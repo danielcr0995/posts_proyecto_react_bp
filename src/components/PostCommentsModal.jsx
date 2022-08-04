@@ -1,10 +1,8 @@
-import { borderBottom } from "@mui/system";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 
 function PostCommentsModal(props) {
-  //   const [comments, setComments] = useState([]);
   const { comments, posttitle } = props;
 
   const commentsList = comments.map((com) => {

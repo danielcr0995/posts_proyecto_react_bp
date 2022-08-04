@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import Table from "react-bootstrap/Table";
 import Container from "react-bootstrap/Container";
 import Button from "react-bootstrap/Button";
@@ -10,12 +10,10 @@ import PostCreateUpdateModal from "./PostCreateUpdateModal";
 import PostContext from "../context/PostContext";
 
 function PostList() {
-  // const [postList, setPostList] = useState([]);
   const [modalCreateShow, setModalCreateShow] = useState(false);
 
   const {
     postList,
-    setPostList,
     deletePost,
     deletedPost,
     modalDeleteShow,

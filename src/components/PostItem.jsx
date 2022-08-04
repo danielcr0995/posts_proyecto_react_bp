@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import Button from "react-bootstrap/Button";
 import ModeEditOutlinedIcon from "@mui/icons-material/ModeEditOutlined";
 import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
@@ -8,22 +8,6 @@ import { useNavigate } from "react-router-dom";
 function PostItem(props) {
   const navigate = useNavigate();
   const { id, title, body, onDelete, onEdit, onViewComments } = props;
-  const [showComments, setShowComents] = useState(false);
-  const handleComments = () => {
-    console.log("Showing comments");
-  };
-
-  function handleDelete() {
-    // console.log("Deleting", id);
-    // await fetch(`https://jsonplaceholder.typicode.com/posts/${id}`, {
-    //   method: "DELETE",
-    // });
-    // await navigate(`/post-deleted`);
-    onDelete(id);
-  }
-  function handleEdit() {
-    onEdit(id);
-  }
 
   return (
     <tr>
