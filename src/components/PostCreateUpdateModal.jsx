@@ -21,8 +21,9 @@ function PostCreateUpdateModal(props) {
     });
   };
 
-  const handleSave = async () => {
-    await onSave(postContent);
+  const handleSave = async (e) => {
+    e.preventDefault();
+    onSave(postContent);
     props.onHide();
   };
   // console.log(postContent);
@@ -44,7 +45,7 @@ function PostCreateUpdateModal(props) {
               className="input"
               type="text"
               name="title"
-              value={postContent.title}
+              value={postContent?.title}
               onChange={handleChange}
             />
           </Form.Text>
@@ -58,7 +59,7 @@ function PostCreateUpdateModal(props) {
               type="text"
               name="body"
               style={{ height: "150px" }}
-              value={postContent.body}
+              value={postContent?.body}
               onChange={handleChange}
             />
           </Form.Text>

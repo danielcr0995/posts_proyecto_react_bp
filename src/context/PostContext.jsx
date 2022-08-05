@@ -8,7 +8,11 @@ function PostProvider(props) {
   const [modalDeleteShow, setModalDeleteShow] = useState(false);
   const [comments, setComments] = useState([]);
   const [modalCommentsShow, setModalCommentsShow] = useState(false);
-  const [editedPost, setEditedPost] = useState({});
+  const [editedPost, setEditedPost] = useState({
+    userId: 1,
+    title: "",
+    body: "",
+  });
   const [modalEditShow, setModalEditShow] = useState(false);
 
   useEffect(() => {
@@ -25,7 +29,7 @@ function PostProvider(props) {
         return post.id !== id;
       });
     });
-    console.log(postList.length);
+    // console.log(postList.length);
     await fetch(`https://jsonplaceholder.typicode.com/posts/${id}`, {
       method: "DELETE",
     });
@@ -41,18 +45,26 @@ function PostProvider(props) {
     setModalCommentsShow(true);
   };
 
-  const editPost = async (id) => {
-    console.log("Editing", id);
-    const url = `https://jsonplaceholder.typicode.com/posts/${id}`;
-    await fetch(url)
-      .then((res) => res.json())
-      .then((data) => setEditedPost(data));
+  // const editPost = async (id) => {
+  //   console.log("Editing", id);
+  //   const url = `https://jsonplaceholder.typicode.com/posts/${id}`;
+  //   await fetch(url)
+  //     .then((res) => res.json())
+  //     .then((data) => setEditedPost(data));
+  //   setModalEditShow(true);
+  // };
+  const editPost2 = async (post) => {
+    console.log("Editing", post.id);
+    // const url = `https://jsonplaceholder.typicode.com/posts/${id}`;
+    // await fetch(url)
+    //   .then((res) => res.json())
+    //   .then((data) => setEditedPost(data));
     setModalEditShow(true);
+    setEditedPost(post);
   };
-
-  const saveEditedPost = (post) => {
+  const saveEditedPost = async (post) => {
     const url = `https://jsonplaceholder.typicode.com/posts/${post.id}`;
-    fetch(url, {
+    await fetch(url, {
       method: "PUT",
       body: JSON.stringify(post),
       headers: {
@@ -60,12 +72,14 @@ function PostProvider(props) {
       },
     })
       .then((response) => response.json())
-      .then((json) => console.log(json));
+      // .then((data) => console.log("received data", data));
+      .then((data) => setEditedPost(data));
     //   .then((json) => {
     //     postList[postList.findIndex((p) => p.id === post.id)].title =
     //       json.title;
     //     postList[postList.findIndex((p) => p.id === post.id)].body = json.body;
     //   });
+    console.log("edited post", editedPost);
   };
 
   const saveNewPost = (post) => {
@@ -92,7 +106,7 @@ function PostProvider(props) {
     comments: comments,
     modalCommentsShow: modalCommentsShow,
     setModalCommentsShow: setModalCommentsShow,
-    editPost: editPost,
+    editPost: editPost2,
     editedPost: editedPost,
     modalEditShow: modalEditShow,
     setModalEditShow: setModalEditShow,

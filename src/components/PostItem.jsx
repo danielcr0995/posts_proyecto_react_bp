@@ -7,27 +7,30 @@ import { useNavigate } from "react-router-dom";
 
 function PostItem(props) {
   const navigate = useNavigate();
-  const { id, title, body, onDelete, onEdit, onViewComments } = props;
+  const { post, onDelete, onEdit, onViewComments } = props;
 
   return (
     <tr>
-      <td>{title}</td>
-      <td>{body}</td>
+      <td>{post.title}</td>
+      <td>{post.body}</td>
       <td>
         <Stack direction="horizontal" gap={3}>
           <Button
             variant="outline-primary"
-            onClick={() => navigate(`/posts/${id}`)}
+            onClick={() => navigate(`/posts/${post.id}`)}
           >
             View
           </Button>
-          <Button variant="outline-primary" onClick={() => onViewComments(id)}>
+          <Button
+            variant="outline-primary"
+            onClick={() => onViewComments(post.id)}
+          >
             Comments
           </Button>
-          <Button variant="outline-secondary" onClick={() => onEdit(id)}>
+          <Button variant="outline-secondary" onClick={() => onEdit(post)}>
             <ModeEditOutlinedIcon />
           </Button>
-          <Button variant="outline-danger" onClick={() => onDelete(id)}>
+          <Button variant="outline-danger" onClick={() => onDelete(post.id)}>
             <DeleteOutlineOutlinedIcon />
           </Button>
         </Stack>

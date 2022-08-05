@@ -14,7 +14,7 @@ function Post() {
   const [post, setPost] = useState();
 
   const navigate = useNavigate();
-
+  console.log(useContext(PostContext));
   const {
     viewComments,
     comments,
@@ -26,6 +26,10 @@ function Post() {
     setModalEditShow,
     saveEditedPost,
   } = useContext(PostContext);
+  console.log("onpost componet", editedPost);
+  useEffect(() => {
+    setPost(editedPost);
+  }, [editedPost]);
 
   useEffect(() => {
     const url = `https://jsonplaceholder.typicode.com/posts/${postId}`;
@@ -65,7 +69,7 @@ function Post() {
         <Button variant="outline-primary" onClick={() => viewComments(postId)}>
           Comments
         </Button>
-        <Button variant="outline-secondary" onClick={() => editPost(postId)}>
+        <Button variant="outline-secondary" onClick={() => editPost(post)}>
           <ModeEditOutlinedIcon />
         </Button>
         <Button variant="outline-danger" onClick={() => handleDelete(postId)}>
