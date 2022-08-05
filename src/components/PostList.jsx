@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import Table from "react-bootstrap/Table";
 import Container from "react-bootstrap/Container";
 import Button from "react-bootstrap/Button";
@@ -11,9 +11,11 @@ import PostContext from "../context/PostContext";
 
 function PostList() {
   const [modalCreateShow, setModalCreateShow] = useState(false);
+  // const [postList, setPostList] = useState([]);
 
   const {
     postList,
+    setPostList,
     deletePost,
     deletedPost,
     modalDeleteShow,
@@ -30,19 +32,38 @@ function PostList() {
     saveNewPost,
   } = useContext(PostContext);
 
+  console.log("before changing", editedPost);
+
   const postItems = postList.map((post) => {
     return (
       <PostItem
         key={post.id}
-        id={post.id}
-        title={post.title}
-        body={post.body}
+        // id={post.id}
+        // title={post.title}
+        // body={post.body}
+        post={post}
         onDelete={deletePost}
         onEdit={editPost}
         onViewComments={viewComments}
       />
     );
   });
+
+  // useEffect(() => {
+  // if (
+  //   Object.keys(editedPost).length === 0 &&
+  //   Object.keys(postList).length === 0
+  // ) {
+  const postIndex = postList?.findIndex((post) => post?.id === editedPost?.id);
+  console.log(postIndex);
+  if (postIndex >= 0) {
+    //   // console.log(postIndex);
+    postList[postIndex].title = editedPost?.title;
+    postList[postIndex].body = editedPost.body;
+    console.log("after changing", editedPost);
+    // setPost(editedPost);
+  }
+  // }, [editedPost]);
   return (
     <>
       <Container>
